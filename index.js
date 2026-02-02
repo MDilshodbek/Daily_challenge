@@ -84,41 +84,73 @@
 // const result = longestPalindrome("habibi");
 // console.log("result:", result);
 
-function convert(s, numRows) {
-  // If there is only one row, zigzag cannot happen
-  if (numRows === 1) return s;
+// function convert(s, numRows) {
+//   // If there is only one row, zigzag cannot happen
+//   if (numRows === 1) return s;
 
-  // Create an array where each index represents one row
-  // Example for numRows = 4 → ["", "", "", ""]
-  const rows = new Array(numRows).fill("");
+//   // Create an array where each index represents one row
+//   // Example for numRows = 4 → ["", "", "", ""]
+//   const rows = new Array(numRows).fill("");
 
-  // This keeps track of which row we are currently writing to
-  let currentRow = 0;
+//   // This keeps track of which row we are currently writing to
+//   let currentRow = 0;
 
-  // This tells us the direction of movement
-  // false → moving up
-  // true  → moving down
-  let goingDown = false;
+//   // This tells us the direction of movement
+//   // false → moving up
+//   // true  → moving down
+//   let goingDown = false;
 
-  // Loop through each character in the string
-  for (let char of s) {
-    // Add the character to the current row
-    rows[currentRow] += char;
+//   // Loop through each character in the string
+//   for (let char of s) {
+//     // Add the character to the current row
+//     rows[currentRow] += char;
 
-    // If we are at the top row OR bottom row,
-    // we must change direction
-    if (currentRow === 0 || currentRow === numRows - 1) {
-      goingDown = !goingDown;
-    }
+//     // If we are at the top row OR bottom row,
+//     // we must change direction
+//     if (currentRow === 0 || currentRow === numRows - 1) {
+//       goingDown = !goingDown;
+//     }
 
-    // Move to the next row based on direction
-    // If goingDown is true → move down (+1)
-    // If goingDown is false → move up (-1)
-    currentRow += goingDown ? 1 : -1;
+//     // Move to the next row based on direction
+//     // If goingDown is true → move down (+1)
+//     // If goingDown is false → move up (-1)
+//     currentRow += goingDown ? 1 : -1;
+//   }
+
+//   // Join all rows into one final string
+//   return rows.join("");
+// }
+
+// console.log(convert("abcdef", 4));
+
+const  reverse = (x)  => {
+  const MAX = 2147483647;
+  const MIN = -2147483648;
+
+  let result = 0;
+
+  while (x !== 0) {
+    // Get last digit
+    const digit = x % 10;
+
+    // Remove last digit from x
+    x = (x / 10) | 0; 
+    // Using bitwise OR to drop decimals safely
+
+    // Check for positive overflow
+    if (result > Math.floor(MAX / 10)) return 0;
+    if (result === Math.floor(MAX / 10) && digit > 7) return 0;
+
+    // Check for negative overflow
+    if (result < Math.ceil(MIN / 10)) return 0;
+    if (result === Math.ceil(MIN / 10) && digit < -8) return 0;
+
+    // Build reversed number
+    result = result * 10 + digit;
   }
 
-  // Join all rows into one final string
-  return rows.join("");
+  return result;
 }
 
-console.log(convert("abcdef", 4));
+console.log(reverse(1234));
+
