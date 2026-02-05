@@ -123,34 +123,84 @@
 
 // console.log(convert("abcdef", 4));
 
-const  reverse = (x)  => {
-  const MAX = 2147483647;
-  const MIN = -2147483648;
+// const  reverse = (x)  => {
+//   const MAX = 2147483647;
+//   const MIN = -2147483648;
 
-  let result = 0;
+//   let result = 0;
 
-  while (x !== 0) {
-    // Get last digit
-    const digit = x % 10;
+//   while (x !== 0) {
+//     // Get last digit
+//     const digit = x % 10;
 
-    // Remove last digit from x
-    x = (x / 10) | 0; 
-    // Using bitwise OR to drop decimals safely
+//     // Remove last digit from x
+//     x = (x / 10) | 0; 
+//     // Using bitwise OR to drop decimals safely
 
-    // Check for positive overflow
-    if (result > Math.floor(MAX / 10)) return 0;
-    if (result === Math.floor(MAX / 10) && digit > 7) return 0;
+//     // Check for positive overflow
+//     if (result > Math.floor(MAX / 10)) return 0;
+//     if (result === Math.floor(MAX / 10) && digit > 7) return 0;
 
-    // Check for negative overflow
-    if (result < Math.ceil(MIN / 10)) return 0;
-    if (result === Math.ceil(MIN / 10) && digit < -8) return 0;
+//     // Check for negative overflow
+//     if (result < Math.ceil(MIN / 10)) return 0;
+//     if (result === Math.ceil(MIN / 10) && digit < -8) return 0;
 
-    // Build reversed number
-    result = result * 10 + digit;
+//     // Build reversed number
+//     result = result * 10 + digit;
+//   }
+
+//   return result;
+// }
+
+function myAtoi(s) {
+  // Step 1: Remove leading spaces
+  let index = 0;
+
+  // Skip all whitespace characters at the beginning
+  while (index < s.length && s[index] === " ") {
+    index++;
   }
 
+  // Step 2: Check sign (+ or -)
+  let sign = 1; // Assume positive by default
+
+  if (index < s.length && s[index] === "-") {
+    sign = -1; // Number will be negative
+    index++;
+  } else if (index < s.length && s[index] === "+") {
+    sign = 1; // Number will be positive
+    index++;
+  }
+
+  // Step 3: Read digits and build the number
+  let result = 0;
+
+  // Read digits until a non-digit character is found
+  while (index < s.length && s[index] >= "0" && s[index] <= "9") {
+    let digit = s[index] - "0"; // Convert character to number
+
+    // Build the number step by step
+    result = result * 10 + digit;
+
+    index++;
+  }
+
+  // Step 4: Apply sign
+  result = result * sign;
+
+  // Step 5: Clamp the result within 32-bit signed integer range
+  let min = -(2 ** 31);       // -2147483648
+  let max = 2 ** 31 - 1;      // 2147483647
+
+  if (result < min) return min;
+  if (result > max) return max;
+
+  // Final answer
   return result;
 }
 
-console.log(reverse(1234));
+const final = console.log(myAtoi("   -042"));
+console.log("final:", final);
+
+
 
